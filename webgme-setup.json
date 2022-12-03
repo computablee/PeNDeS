@@ -8,12 +8,6 @@
         "secondary": false,
         "widget": "src/visualizers/widgets/PeNDeSSimulator"
       }
-    },
-    "plugins": {
-      "PeNDeSSimulator": {
-        "src": "src/plugins/PeNDeSSimulator",
-        "test": "test/plugins/PeNDeSSimulator"
-      }
     }
   }
 }
