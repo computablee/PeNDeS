@@ -15,6 +15,6 @@ ADD . /usr/app
 
 RUN npm install  --unsafe-perm
 
+CMD ["npm", "run", "webgme", "import", "viz", "ICore","webgme-icore"]
+
 CMD ["npm", "start"]
-
-
