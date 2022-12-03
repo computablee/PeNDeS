@@ -6,6 +6,12 @@
 
 define(['css!./styles/PeNDeSSimulatorWidget.css'], function () {
     'use strict';
+    //let dagre = require('dagre');
+    //let graphlib = require('graphlib');
+    //let joint = require('jointjs');
+
+    //let g = new dagre.graphlib.Graph();
+    //g.setGraph({});
 
     var WIDGET_CLASS = 'pe-n-de-s-simulator';
 
@@ -29,7 +35,7 @@ define(['css!./styles/PeNDeSSimulatorWidget.css'], function () {
         this._el.addClass(WIDGET_CLASS);
 
         // Create a dummy header
-        this._el.append('<h3>PeNDeSSimulator Events:</h3>');
+        //this._el.append('<h3>PeNDeSSimulator Events:</h3>');
 
         // Registering to events can be done with jQuery (as normal)
         this._el.on('dblclick', function (event) {
@@ -47,7 +53,7 @@ define(['css!./styles/PeNDeSSimulatorWidget.css'], function () {
     PeNDeSSimulatorWidget.prototype.addNode = function (desc) {
         if (desc) {
             // Add node to a table of nodes
-            var node = document.createElement('div'),
+            /*var node = document.createElement('div'),
                 label = 'children';
 
             if (desc.childrenIds.length === 1) {
@@ -59,7 +65,10 @@ define(['css!./styles/PeNDeSSimulatorWidget.css'], function () {
                 desc.childrenIds.length + ' ' + label + '.';
 
             this._el.append(node);
+
             node.onclick = this.onNodeClick.bind(this, desc.id);
+	    */
+		this.logger.info(desc);
         }
     };
 

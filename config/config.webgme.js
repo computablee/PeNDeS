@@ -10,7 +10,6 @@ var config = require('webgme/config/config.default'),
 
 
 
-config.visualization.panelPaths.push(__dirname + '/../node_modules/webgme-icore/src/visualizers/panels');
 config.visualization.panelPaths.push(__dirname + '/../src/visualizers/panels');
 
 
@@ -20,12 +19,8 @@ config.visualization.panelPaths.push(__dirname + '/../src/visualizers/panels');
 config.visualization.visualizerDescriptors.push(__dirname + '/../src/visualizers/Visualizers.json');
 // Add requirejs paths
 config.requirejsPaths = {
-  'ICore': 'panels/ICore/ICorePanel',
   'panels': './src/visualizers/panels',
   'widgets': './src/visualizers/widgets',
-  'panels/ICore': './node_modules/webgme-icore/src/visualizers/panels/ICore',
-  'widgets/ICore': './node_modules/webgme-icore/src/visualizers/widgets/ICore',
-  'webgme-icore': './node_modules/webgme-icore/src/common',
   'wdestup': './src/common'
 };
 
