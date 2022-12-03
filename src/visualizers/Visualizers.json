@@ -4,5 +4,11 @@
     "title": "ICore",
     "panel": "panels/ICore/ICorePanel",
     "DEBUG_ONLY": false
+  },
+  {
+    "id": "PeNDeSSimulator",
+    "title": "PeNDeSSimulator",
+    "panel": "panels/PeNDeSSimulator/PeNDeSSimulatorPanel",
+    "DEBUG_ONLY": false
   }
 ]

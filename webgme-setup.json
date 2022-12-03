@@ -1,4 +1,25 @@
 {
-  "components": {},
-  "dependencies": {}
+  "components": {
+    "visualizers": {
+      "PeNDeSSimulator": {
+        "src": "panels/PeNDeSSimulator/PeNDeSSimulatorPanel",
+        "title": "PeNDeSSimulator",
+        "panel": "src/visualizers/panels/PeNDeSSimulator",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/PeNDeSSimulator"
+      }
+    }
+  },
+  "dependencies": {
+    "visualizers": {
+      "ICore": {
+        "src": "panels/ICore/ICorePanel",
+        "title": "ICore",
+        "panel": "src/visualizers/panels/ICore",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/ICore",
+        "project": "webgme-icore"
+      }
+    }
+  }
 }
