@@ -91,7 +91,7 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
 
             handleTransition(t, target) {
                 let objects = this.objects;
-                console.log("Here");
+
                 if (objects[t] && objects[t].type != "Transition") return;
                 else if (!objects[t]) return;
 
@@ -110,7 +110,6 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
 
             draw(target) {
                 let objects = this.objects
-                console.log(objects);
                 var namespace = joint.shapes;
 
                 var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
@@ -128,7 +127,6 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
 
                 paper.on('cell:pointerclick',
                     function (cellView, evt, x, y) {
-                        console.log('cell view ' + self.getPathFromClick(cellView.model.id) + ' was clicked');
                         self.handleTransition(self.getPathFromClick(cellView.model.id), target);
                     }
                 );
@@ -207,8 +205,6 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                             if (objects[obj2].type == "Transition" && obj != obj2) {
                                 objects[obj].ins.sort();
                                 objects[obj2].ins.sort();
-
-                                console.log(obj, obj2, objects[obj].ins, objects[obj2].ins);
 
                                 let eq = true;
 

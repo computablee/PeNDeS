@@ -231,7 +231,7 @@ define([
 
         /************** Checkbox example *******************/
 
-        this.$cbShowConnection = toolBar.addButton({
+        this.$cbReset = toolBar.addButton({
             title: 'Reset Simulator',
             icon: 'gme icon-gme_dot-tailed-line',
             clickFn: function () {
@@ -239,7 +239,7 @@ define([
             }
         });
 
-        this.$cbShowConnection = toolBar.addButton({
+        this.$cbClassify = toolBar.addButton({
             title: 'Classify Network',
             icon: 'gme icon-gme_keyboard',
             clickFn: function () {
@@ -247,7 +247,8 @@ define([
             }
         });
 
-        this._toolbarItems.push(this.$cbShowConnection);
+        this._toolbarItems.push(this.$cbClassify);
+        this._toolbarItems.push(this.$cbReset);
 
         this._toolbarInitialized = true;
     };
