@@ -16,5 +16,11 @@
       }
     },
     "seeds": {}
+  },
+  "dependencies": {
+    "seeds": {},
+    "decorators": {},
+    "plugins": {},
+    "visualizers": {}
   }
 }
