@@ -15,6 +15,6 @@ ADD . /usr/app
 
 RUN npm install  --unsafe-perm
 
-CMD ["npm", "i", "jointjs", "graphlib", "dagre"]
+RUN npm i jointjs graphlib dagre
 
 CMD ["npm", "start"]
