@@ -4,65 +4,51 @@ require.config({
     }
 })
 define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js'],
-    function (joint, dagre) {
+    'https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js',
+    'css!https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.2/joint.css'],
+    function (joint, dagre, jointcss) {
         return class JJS {
-            constructor(target, nodes) {
-                //append paper
-                target.append('<div id="paper"></div>');
-
+            constructor(target, nodes, core) {
                 console.log("Running...");
-                // create a graph using graphlib
-                var g = new dagre.graphlib.Graph();
-                g.setGraph({});
-                g.setDefaultEdgeLabel(function () { return {}; });
 
-                // add nodes to the graph
-                g.setNode("a", { label: "a" });
-                g.setNode("b", { label: "b" });
-                g.setNode("c", { label: "c" });
+                console.log(nodes);
 
-                // add edges to the graph
-                g.setEdge("a", "b");
-                g.setEdge("b", "c");
+                var namespace = joint.shapes;
 
-                // render the graph using dagre
-                dagre.layout(g);
+                var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
 
-                // create a jointjs graph
-                var graph = new joint.dia.Graph();
-
-                // create a jointjs paper
                 var paper = new joint.dia.Paper({
-                    el: document.getElementById("paper"),
-                    width: 200,
-                    height: 200,
+                    el: target,
                     model: graph,
-                    gridSize: 5
+                    width: target.width,
+                    height: target.height,
+                    gridSize: 1,
+                    cellViewNamespace: namespace
                 });
 
-                // add the nodes and edges from dagre to jointjs
-                g.nodes().forEach(function (v) {
-                    var node = g.node(v);
-                    var rect = new joint.shapes.basic.Rect({
-                        position: { x: node.x, y: node.y },
-                        size: { width: node.width, height: node.height },
-                        attrs: { rect: { fill: "white" }, text: { text: node.label, fill: "black" } }
-                    });
-                    rect.addTo(graph);
+                var rect = new joint.shapes.standard.Rectangle();
+                rect.position(100, 30);
+                rect.resize(100, 40);
+                rect.attr({
+                    body: {
+                        fill: 'blue'
+                    },
+                    label: {
+                        text: 'Hello',
+                        fill: 'white'
+                    }
                 });
+                rect.addTo(graph);
 
-                g.edges().forEach(function (e) {
-                    var edge = g.edge(e);
-                    var link = new joint.dia.Link({
-                        source: { id: edge.v },
-                        target: { id: edge.w },
-                        attrs: { ".marker-target": { d: "M 10 0 L 0 5 L 10 10 z" } }
-                    });
-                    link.addTo(graph);
-                });
+                var rect2 = rect.clone();
+                rect2.translate(300, 0);
+                rect2.attr('label/text', 'World!');
+                rect2.addTo(graph);
 
-                paper.model = g;
+                var link = new joint.shapes.standard.Link();
+                link.source(rect);
+                link.target(rect2);
+                link.addTo(graph);
             }
         }
     });
