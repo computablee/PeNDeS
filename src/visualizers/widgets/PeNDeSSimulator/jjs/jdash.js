@@ -67,29 +67,35 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                 let objects = this.objects
                 for (let obj in objects) {
                     let object = objects[obj];
-                    if (object.shape.id == clickId) {
+                    if (object.shape && object.shape.id == clickId) {
                         return obj;
                     }
                 }
                 return null;
             }
 
-            handleTransition(t, target) {
+            isEnabled(t) {
                 let objects = this.objects;
-                console.log("Here");
-                if (objects[t].type != "Transition") return;
+                if (objects[t].type != "Transition") return false;
 
                 let good = true;
 
                 objects[t].ins.forEach(inp => {
-                    console.log(inp, objects[inp].marking);
                     if (objects[inp].marking == 0) {
-                        console.log('Cannot fire this transition!!');
                         good = false;
                     }
                 });
 
-                if (good) {
+                return good;
+            }
+
+            handleTransition(t, target) {
+                let objects = this.objects;
+                console.log("Here");
+                if (objects[t] && objects[t].type != "Transition") return;
+                else if (!objects[t]) return;
+
+                if (this.isEnabled(t)) {
                     objects[t].ins.forEach(inp => {
                         objects[inp].marking--;
                     });
@@ -127,6 +133,8 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     }
                 );
 
+                let isProgressible = false;
+
                 for (var node in objects) {
                     let obj = objects[node];
                     if (obj.type == 'Place') {
@@ -152,7 +160,7 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                         rect.resize(40, 120);
                         rect.attr({
                             body: {
-                                fill: 'white'
+                                fill: this.isEnabled(node) ? (isProgressible = true, 'green') : 'red'
                             }
                         });
 
@@ -172,6 +180,10 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                             link.addTo(graph);
                         }
                     }
+                }
+
+                if (!isProgressible) {
+                    target.append('<h1>Network has no legal transitions!</h1>');
                 }
             }
 
