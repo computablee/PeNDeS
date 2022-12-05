@@ -187,6 +187,81 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                 }
             }
 
+            isStateMachine() {
+                let objects = this.objects;
+                for (let obj in objects) {
+                    if (objects[obj].type == "Transition") {
+                        if (objects[obj].ins.length != 1 || objects[obj].outs.length != 1) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            isFreeChoice() {
+                let objects = this.objects;
+                for (let obj in objects) {
+                    if (objects[obj].type == "Transition") {
+                        for (let obj2 in objects) {
+                            if (objects[obj2].type == "Transition" && obj != obj2) {
+                                if (objects[obj].ins.every(element => {
+                                    if (objects[obj2].ins.includes(element)) {
+                                        return true;
+                                    }
+
+                                    return false;
+                                })) return false;
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+
+            isMarked() {
+                let objects = this.objects;
+                for (let obj in objects) {
+                    if (objects[obj].type == "Place") {
+                        if (objects[obj].ins.length != 1 || objects[obj].outs.length != 1) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+            isWorkflow() {
+                return false;
+            }
+
+            classify(target) {
+                if (!document.getElementById('class')) {
+                    let isAtLeastOne = false;
+                    let innerhtml = '';
+                    if (this.isStateMachine()) {
+                        innerhtml += 'State machine<br />';
+                        isAtLeastOne = true;
+                    }
+                    if (this.isFreeChoice()) {
+                        innerhtml += 'Free-choice petri net<br />';
+                        isAtLeastOne = true;
+                    }
+                    if (this.isMarked()) {
+                        innerhtml += 'Marked graph<br />';
+                        isAtLeastOne = true;
+                    }
+                    if (this.isWorkflow()) {
+                        innerhtml += 'Workflow net<br />';
+                        isAtLeastOne = true;
+                    }
+                    if (!isAtLeastOne) {
+                        innerhtml += 'Not a particularly interesting net';
+                    }
+                    target.append('<h1 id="class">' + innerhtml + '</h1>');
+                }
+            }
+
             constructor(target, nodes, core) {
                 this.objects = this.extractGraph(nodes, core);
                 this.draw(target);

@@ -66,6 +66,10 @@ define(['./jjs/jdash',
             this.dash = new JJS(this._el, this.nodes, this.core);
         };
 
+        PeNDeSSimulatorWidget.prototype.classify = function () {
+            this.dash.classify(this._el);
+        }
+
         PeNDeSSimulatorWidget.prototype.removeNode = function (gmeId) {
             var desc = this.nodes[gmeId];
             delete this.nodes[gmeId];

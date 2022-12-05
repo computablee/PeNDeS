@@ -238,6 +238,15 @@ define([
                 self._widget.create();
             }
         });
+
+        this.$cbShowConnection = toolBar.addButton({
+            title: 'Classify Network',
+            icon: 'gme icon-gme_keyboard',
+            clickFn: function () {
+                self._widget.classify();
+            }
+        });
+
         this._toolbarItems.push(this.$cbShowConnection);
 
         this._toolbarInitialized = true;
