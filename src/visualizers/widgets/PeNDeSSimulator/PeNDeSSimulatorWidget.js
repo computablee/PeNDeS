@@ -57,13 +57,13 @@ define(['./jjs/jdash',
                 let nodeObj = this.core.getNode(desc.id);
                 this.nodes[desc.id].pos = nodeObj.getRegistry(REGISTRY_KEYS.POSITION) || { x: 0, y: 0 };
 
-                this.create(this.nodes);
+                this.create();
             }
         };
 
-        PeNDeSSimulatorWidget.prototype.create = function (nodes) {
+        PeNDeSSimulatorWidget.prototype.create = function () {
             this._el.empty();
-            this.dash = new JJS(this._el, nodes, this.core);
+            this.dash = new JJS(this._el, this.nodes, this.core);
         };
 
         PeNDeSSimulatorWidget.prototype.removeNode = function (gmeId) {

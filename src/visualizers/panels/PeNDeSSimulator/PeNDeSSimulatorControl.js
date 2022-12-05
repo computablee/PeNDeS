@@ -60,7 +60,7 @@ define([
         if (typeof self._currentNodeId === 'string') {
             // Put new node's info into territory rules
             self._selfPatterns = {};
-            self._selfPatterns[nodeId] = {children: 0};  // Territory "rule"
+            self._selfPatterns[nodeId] = { children: 0 };  // Territory "rule"
 
             self._widget.setTitle(desc.name.toUpperCase());
 
@@ -79,7 +79,7 @@ define([
             // Update the territory
             self._client.updateTerritory(self._territoryId, self._selfPatterns);
 
-            self._selfPatterns[nodeId] = {children: 1};
+            self._selfPatterns[nodeId] = { children: 1 };
             self._client.updateTerritory(self._territoryId, self._selfPatterns);
         }
     };
@@ -112,17 +112,17 @@ define([
             event = events[i];
             switch (event.etype) {
 
-            case CONSTANTS.TERRITORY_EVENT_LOAD:
-                this._onLoad(event.eid);
-                break;
-            case CONSTANTS.TERRITORY_EVENT_UPDATE:
-                this._onUpdate(event.eid);
-                break;
-            case CONSTANTS.TERRITORY_EVENT_UNLOAD:
-                this._onUnload(event.eid);
-                break;
-            default:
-                break;
+                case CONSTANTS.TERRITORY_EVENT_LOAD:
+                    this._onLoad(event.eid);
+                    break;
+                case CONSTANTS.TERRITORY_EVENT_UPDATE:
+                    this._onUpdate(event.eid);
+                    break;
+                case CONSTANTS.TERRITORY_EVENT_UNLOAD:
+                    this._onUnload(event.eid);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -171,7 +171,7 @@ define([
         this._displayToolbarItems();
 
         if (typeof this._currentNodeId === 'string') {
-            WebGMEGlobal.State.registerActiveObject(this._currentNodeId, {suppressVisualizerFromNode: true});
+            WebGMEGlobal.State.registerActiveObject(this._currentNodeId, { suppressVisualizerFromNode: true });
         }
     };
 
@@ -231,11 +231,11 @@ define([
 
         /************** Checkbox example *******************/
 
-        this.$cbShowConnection = toolBar.addCheckBox({
-            title: 'toggle checkbox',
-            icon: 'gme icon-gme_diagonal-arrow',
-            checkChangedFn: function (data, checked) {
-                self._logger.debug('Checkbox has been clicked!');
+        this.$cbShowConnection = toolBar.addButton({
+            title: 'Reset Simulator',
+            icon: 'gme icon-gme_dot-tailed-line',
+            clickFn: function () {
+                self._widget.create();
             }
         });
         this._toolbarItems.push(this.$cbShowConnection);
