@@ -20,5 +20,11 @@
         "src": "src/seeds/PeNDeS"
       }
     }
+  },
+  "dependencies": {
+    "seeds": {},
+    "decorators": {},
+    "plugins": {},
+    "visualizers": {}
   }
 }
