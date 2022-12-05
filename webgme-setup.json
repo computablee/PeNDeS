@@ -15,10 +15,6 @@
         "test": "test/plugins/PenSim"
       }
     },
-    "seeds": {
-      "PeNDeS": {
-        "src": "src/seeds/PeNDeS"
-      }
-    }
+    "seeds": {}
   }
 }
