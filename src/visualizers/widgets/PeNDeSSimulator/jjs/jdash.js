@@ -22,10 +22,23 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     let type = meta ? core.getAttribute(meta, 'name') : null;
 
                     if (type == 'Place') {
-                        objects[core.getPath(actnode)] = { type, marking: core.getAttribute(actnode, 'Marking'), x: oldnodes[node].pos.x, y: oldnodes[node].pos.y };
+                        objects[core.getPath(actnode)] = {
+                            type,
+                            marking: core.getAttribute(actnode, 'Marking'),
+                            x: oldnodes[node].pos.x,
+                            y: oldnodes[node].pos.y,
+                            ins: [],
+                            outs: []
+                        };
                     }
                     else if (type == 'Transition') {
-                        objects[core.getPath(actnode)] = { type, x: oldnodes[node].pos.x, y: oldnodes[node].pos.y };
+                        objects[core.getPath(actnode)] = {
+                            type,
+                            x: oldnodes[node].pos.x,
+                            y: oldnodes[node].pos.y,
+                            ins: [],
+                            outs: []
+                        };
                     }
                 }
 
@@ -35,19 +48,63 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     let type = meta ? core.getAttribute(meta, 'name') : null;
 
                     if (type == 'Inplace' || type == 'Outplace') {
+                        let src = core.getPointerPath(actnode, 'src');
+                        let dst = core.getPointerPath(actnode, 'dst');
                         objects[core.getPath(actnode)] = {
                             type: 'arc',
-                            src: core.getPointerPath(actnode, 'src'),
-                            dst: core.getPointerPath(actnode, 'dst'),
+                            src,
+                            dst,
                             x: oldnodes[node].pos.x, y: oldnodes[node].pos.y
                         };
+                        if (objects[src]) objects[src].outs.push(dst);
+                        if (objects[dst]) objects[dst].ins.push(src);
                     }
                 }
                 return objects;
             }
 
+            getPathFromClick(clickId) {
+                let objects = this.objects
+                for (let obj in objects) {
+                    let object = objects[obj];
+                    if (object.shape.id == clickId) {
+                        return obj;
+                    }
+                }
+                return null;
+            }
+
+            handleTransition(t, target) {
+                let objects = this.objects;
+                console.log("Here");
+                if (objects[t].type != "Transition") return;
+
+                let good = true;
+
+                objects[t].ins.forEach(inp => {
+                    console.log(inp, objects[inp].marking);
+                    if (objects[inp].marking == 0) {
+                        console.log('Cannot fire this transition!!');
+                        good = false;
+                    }
+                });
+
+                if (good) {
+                    objects[t].ins.forEach(inp => {
+                        objects[inp].marking--;
+                    });
+
+                    objects[t].outs.forEach(outp => {
+                        objects[outp].marking++;
+                    });
+
+                    this.draw(target);
+                }
+            }
+
             draw(target) {
                 let objects = this.objects
+                console.log(objects);
                 var namespace = joint.shapes;
 
                 var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
@@ -61,10 +118,18 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     cellViewNamespace: namespace
                 });
 
+                let self = this;
+
+                paper.on('cell:pointerclick',
+                    function (cellView, evt, x, y) {
+                        console.log('cell view ' + self.getPathFromClick(cellView.model.id) + ' was clicked');
+                        self.handleTransition(self.getPathFromClick(cellView.model.id), target);
+                    }
+                );
+
                 for (var node in objects) {
                     let obj = objects[node];
                     if (obj.type == 'Place') {
-                        console.log(obj);
                         var circ = new joint.shapes.standard.Circle();
                         circ.position(obj.x, obj.y);
                         circ.resize(60, 60);
