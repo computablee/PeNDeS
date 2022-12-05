@@ -15,7 +15,8 @@
         "test": "test/plugins/PenSim"
       }
     },
-    "seeds": {}
+    "seeds": {},
+    "decorators": {}
   },
   "dependencies": {
     "seeds": {},
