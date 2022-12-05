@@ -8,6 +8,13 @@
         "secondary": false,
         "widget": "src/visualizers/widgets/PeNDeSSimulator"
       }
-    }
+    },
+    "plugins": {
+      "PenSim": {
+        "src": "src/plugins/PenSim",
+        "test": "test/plugins/PenSim"
+      }
+    },
+    "seeds": {}
   }
 }

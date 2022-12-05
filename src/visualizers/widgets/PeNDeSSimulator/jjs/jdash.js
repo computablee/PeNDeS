@@ -260,13 +260,14 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                 let start = icol[0];
                 let end = ocol[0];
 
-                function endIsReachable(node, end) {
+                function endIsReachable(node, end, visited) {
+                    if (visited.includes(node)) return false;
                     if (node == end) return true;
                     if (objects[node].outs.length == 0) return false;
 
                     let good = false;
                     objects[node].outs.forEach(out => {
-                        if (endIsReachable(out, end)) {
+                        if (endIsReachable(out, end, [...visited, node])) {
                             good = true;
                         }
                     });
@@ -275,7 +276,7 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                 }
 
                 for (let obj in objects) {
-                    if (objects[obj].type != 'arc' && !endIsReachable(obj, end)) {
+                    if (objects[obj].type != 'arc' && !endIsReachable(obj, end, [])) {
                         return false;
                     }
                 }
