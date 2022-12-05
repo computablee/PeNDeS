@@ -205,13 +205,20 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     if (objects[obj].type == "Transition") {
                         for (let obj2 in objects) {
                             if (objects[obj2].type == "Transition" && obj != obj2) {
-                                if (objects[obj].ins.every(element => {
-                                    if (objects[obj2].ins.includes(element)) {
-                                        return true;
-                                    }
+                                objects[obj].ins.sort();
+                                objects[obj2].ins.sort();
 
-                                    return false;
-                                })) return false;
+                                console.log(obj, obj2, objects[obj].ins, objects[obj2].ins);
+
+                                let eq = true;
+
+                                if (objects[obj].ins.length == objects[obj2].ins.length) {
+                                    for (let i = 0; i < objects[obj].ins.length; i++)
+                                        if (objects[obj].ins[i] != objects[obj2].ins[i])
+                                            eq = false;
+
+                                    if (eq) return false;
+                                }
                             }
                         }
                     }
@@ -232,7 +239,52 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
             }
 
             isWorkflow() {
-                return false;
+                let objects = this.objects;
+
+                let i = 0, o = 0;
+                let icol = [], ocol = [];
+
+                for (let obj in objects) {
+                    if (objects[obj].type == "Place") {
+                        if (objects[obj].ins.length == 0) {
+                            i++;
+                            icol.push(obj);
+                        }
+                        if (objects[obj].outs.length == 0) {
+                            o++;
+                            ocol.push(obj);
+                        }
+                    }
+                }
+
+                if (i != 1 || o != 1) {
+                    return false;
+                }
+
+                let start = icol[0];
+                let end = ocol[0];
+
+                function endIsReachable(node, end) {
+                    if (node == end) return true;
+                    if (objects[node].outs.length == 0) return false;
+
+                    let good = false;
+                    objects[node].outs.forEach(out => {
+                        if (endIsReachable(out, end)) {
+                            good = true;
+                        }
+                    });
+
+                    return good;
+                }
+
+                for (let obj in objects) {
+                    if (objects[obj].type != 'arc' && !endIsReachable(obj, end)) {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             classify(target) {
