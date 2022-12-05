@@ -64,17 +64,7 @@ define(['./jjs/jdash',
         PeNDeSSimulatorWidget.prototype.create = function (nodes) {
             this._el.empty();
             this.dash = new JJS(this._el, nodes, this.core);
-            //this.initdash();
-            //this.dash.build(links, name, doc, extra);
-            //this.dash.onDidResize(this.currentWidth, this.currentHeight);
         };
-
-        /*PeNDeSSimulatorWidget.prototype.initdash = function() {
-            this.dashBoard.events().addEventListener('onClassifyClicked', this.onClassifyBtnClicked);
-            this.dashBoard.events().addEventListener('onResetClicked', () => {
-                this.dashBoard.build(this.currentGraph);
-            })
-        }*/
 
         PeNDeSSimulatorWidget.prototype.removeNode = function (gmeId) {
             var desc = this.nodes[gmeId];

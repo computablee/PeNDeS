@@ -4,15 +4,50 @@ require.config({
     }
 })
 define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js',
     'css!https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.2/joint.css'],
-    function (joint, dagre, jointcss) {
+    function (joint, _) {
         return class JJS {
-            constructor(target, nodes, core) {
-                console.log("Running...");
+            extractGraph(nodes, core) {
+                let oldcore = core;
+                core = core.getNode(Object.keys(nodes)[0])._state.core;
 
-                console.log(nodes);
+                let oldnodes = nodes;
+                nodes = oldcore.getNode(Object.keys(nodes)[0])._state.nodes;
 
+                let objects = {};
+
+                for (var node in oldnodes) {
+                    let actnode = nodes[node].node;
+                    let meta = core.getMetaType(actnode);
+                    let type = meta ? core.getAttribute(meta, 'name') : null;
+
+                    if (type == 'Place') {
+                        objects[core.getPath(actnode)] = { type, marking: core.getAttribute(actnode, 'Marking'), x: oldnodes[node].pos.x, y: oldnodes[node].pos.y };
+                    }
+                    else if (type == 'Transition') {
+                        objects[core.getPath(actnode)] = { type, x: oldnodes[node].pos.x, y: oldnodes[node].pos.y };
+                    }
+                }
+
+                for (var node in oldnodes) {
+                    let actnode = nodes[node].node;
+                    let meta = core.getMetaType(actnode);
+                    let type = meta ? core.getAttribute(meta, 'name') : null;
+
+                    if (type == 'Inplace' || type == 'Outplace') {
+                        objects[core.getPath(actnode)] = {
+                            type: 'arc',
+                            src: core.getPointerPath(actnode, 'src'),
+                            dst: core.getPointerPath(actnode, 'dst'),
+                            x: oldnodes[node].pos.x, y: oldnodes[node].pos.y
+                        };
+                    }
+                }
+                return objects;
+            }
+
+            draw(target) {
+                let objects = this.objects
                 var namespace = joint.shapes;
 
                 var graph = new joint.dia.Graph({}, { cellNamespace: namespace });
@@ -26,29 +61,58 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                     cellViewNamespace: namespace
                 });
 
-                var rect = new joint.shapes.standard.Rectangle();
-                rect.position(100, 30);
-                rect.resize(100, 40);
-                rect.attr({
-                    body: {
-                        fill: 'blue'
-                    },
-                    label: {
-                        text: 'Hello',
-                        fill: 'white'
+                for (var node in objects) {
+                    let obj = objects[node];
+                    if (obj.type == 'Place') {
+                        console.log(obj);
+                        var circ = new joint.shapes.standard.Circle();
+                        circ.position(obj.x, obj.y);
+                        circ.resize(60, 60);
+                        circ.attr({
+                            body: {
+                                fill: 'white'
+                            },
+                            label: {
+                                text: obj.marking.toString(),
+                                fill: 'black'
+                            }
+                        });
+
+                        circ.addTo(graph);
+                        objects[node].shape = circ;
                     }
-                });
-                rect.addTo(graph);
+                    else if (obj.type == 'Transition') {
+                        var rect = new joint.shapes.standard.Rectangle();
+                        rect.position(obj.x, obj.y);
+                        rect.resize(40, 120);
+                        rect.attr({
+                            body: {
+                                fill: 'white'
+                            }
+                        });
 
-                var rect2 = rect.clone();
-                rect2.translate(300, 0);
-                rect2.attr('label/text', 'World!');
-                rect2.addTo(graph);
+                        rect.addTo(graph);
+                        objects[node].shape = rect;
+                    }
+                }
 
-                var link = new joint.shapes.standard.Link();
-                link.source(rect);
-                link.target(rect2);
-                link.addTo(graph);
+                for (var node in objects) {
+                    let obj = objects[node];
+                    if (obj.type == 'arc') {
+                        var link = new joint.shapes.standard.Link();
+                        let [src, dst] = [obj.src, obj.dst];
+                        if (objects[src] && objects[dst]) {
+                            link.source(objects[src].shape);
+                            link.target(objects[dst].shape);
+                            link.addTo(graph);
+                        }
+                    }
+                }
+            }
+
+            constructor(target, nodes, core) {
+                this.objects = this.extractGraph(nodes, core);
+                this.draw(target);
             }
         }
     });
