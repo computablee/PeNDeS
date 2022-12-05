@@ -81,7 +81,7 @@ define(['https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.3/joint.min.js',
                 let good = true;
 
                 objects[t].ins.forEach(inp => {
-                    if (objects[inp].marking == 0) {
+                    if (objects[inp] && objects[inp].marking == 0) {
                         good = false;
                     }
                 });
