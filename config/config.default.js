@@ -3,6 +3,9 @@
 var config = require('./config.webgme'),
     validateConfig = require('webgme/config/validator');
 
+config.seedProjects.basePaths = ['src/seeds/PeNDeS'];
+config.seedProjects.defaultProject = 'PeNDeS';
+
 // Add/overwrite any additional settings here
 const mongoHost = process.env.MONGO_HOST || '127.0.0.1';
 config.mongo.uri = `mongodb://${mongoHost}:27017/webgme_dcrypps`;
