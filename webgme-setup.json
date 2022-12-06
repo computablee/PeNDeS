@@ -9,13 +9,12 @@
         "widget": "src/visualizers/widgets/PeNDeSSimulator"
       }
     },
-    "plugins": {
-      "PenSim": {
-        "src": "src/plugins/PenSim",
-        "test": "test/plugins/PenSim"
+    "plugins": {},
+    "seeds": {
+      "PeNDeS": {
+        "src": "src/seeds/PeNDeS"
       }
     },
-    "seeds": {},
     "decorators": {}
   },
   "dependencies": {
