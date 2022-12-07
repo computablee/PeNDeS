@@ -1,8 +1,12 @@
 # Petri Net Design Studio (PeNDeS)
 
-The Petri Net Design Studio (PeNDeS) is a tool for the design and analysis of Petri nets. It is based on the WebGME framework and is available as a web application.
+The Petri Net Design Studio (PeNDeS) is a tool for the design and analysis of Petri nets. It is based on the WebGME framework and is available as a web application. Wikipedia explains a Petri net better than I can:
+
+"A Petri net [...] is one of several mathematical modeling languages for the description of distributed systems. It is a class of discrete event dynamic system. A Petri net is a directed bipartite graph that has two types of elements, places and transitions. Place elements are depicted as white circles and transition elements are depicted as rectangles. A place can contain any number of tokens, depicted as black circles. A transition is enabled if all places connected to it as inputs contain at least one token." - [Wikipedia](https://en.wikipedia.org/wiki/Petri_net)
 
 PeNDeS was designed as the term project for Model-Integrated Computing (CS-6388) at Vanderbilt University. This project was completed by Phillip Lane.
+
+![PeNDeS](./media/image_1.png)
 
 ## Installation
 
@@ -46,6 +50,8 @@ PeNDeS ships with a simulator to execute Petri nets! To use the simulator, click
 
 Enabled transitions are shown as green rectangles, and disabled transitions are shown as red rectangles. You can click an enabled transition to fire it. If there are no legal transitions to fire, the simulator will display a message saying so.
 
+![PeNDeS Simulator](./media/image_2.png)
+
 To reset the simulator, click the up-facing arrow icon on the top panel. This will reset the simulator to the initial state of the Petri net as specified in the composition. To classify a network, click the keyboard icon on the top panel. This will classify the network as a
 
 * Free-choice net
@@ -54,11 +60,13 @@ To reset the simulator, click the up-facing arrow icon on the top panel. This wi
 * Workflow net
 * "Not a particularly interesting net"
 
+![PeNDeS Interpreter](./media/image_3.png)
+
 ## Example Networks
 
 In each project created from the PeNDeS seed, there are four example networks. These are safe to delete and modify, and are there to provide an easy way to get started with PeNDeS. The networks are:
 
-* A free-choice net
-* A state machine
-* A net that labels as both a marked graph and a free-choice net
-* A workflow net
+* A free-choice net (SampleNet1)
+* A state machine (SampleNet2)
+* A net that labels as both a marked graph and a free-choice net (SampleNet3)
+* A workflow net (SampleNet4)
