@@ -10,6 +10,18 @@ PeNDeS was designed as the term project for Model-Integrated Computing (CS-6388)
 
 ## Installation
 
+First, you will need to clone the repository. You can do this by running the following command:
+
+```bash
+git clone https://github.com/computablee/PeNDeS.git
+```
+
+Then, `cd` into the PeNDeS directory and run the following command:
+
+```bash
+echo "BASE_DIR = $(pwd)" > .env
+```
+
 PeNDeS is shipped as a Docker-Compose file. To install PeNDeS, you must have Docker and Docker Compose installed on your system. Once you have Docker and Docker Compose installed, you can run the following command to build PeNDeS:
 
 ```bash
