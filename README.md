@@ -1,3 +1,11 @@
+## This project will be deleted soon!
+
+Due to GitHub's unfortunate new practice of using repositories to train Microsoft LLMs, I have made the difficult decision to migrate all of my projects to [Codeberg](https://codeberg.org/).
+
+Because of this project's low visibility, I have decided that it is not important enough to keep on GitHub.
+**Therefore, I have decided to delete this project at some point during the month of September.**
+[This project's new home can be found here.](https://codeberg.org/computablee/PeNDeS)
+
 # Petri Net Design Studio (PeNDeS)
 
 The Petri Net Design Studio (PeNDeS) is a tool for the design and analysis of Petri nets. It is based on the WebGME framework and is available as a web application. Wikipedia explains a Petri net better than I can:
